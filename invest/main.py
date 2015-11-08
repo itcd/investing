@@ -45,24 +45,25 @@ def simulate(dt_start, dt_end, ls_symbols, weights):
     sharpe=math.sqrt(trading_days)*mean/std
     return vol,daily_ret,sharpe,cum_ret
 
-def countChange(money, coins):
-    return change(money,coins,[],0)
+def weights():
+    coins=np.arange(0,1.1,0.1).tolist()
+    return change(1,coins,[],0,3)
 
-def change(money, coins, changes, index):
-    if(index==3):
+def change(money, coins, changes, index, target):
+    if(index==target):
         changes.append(money)
         return [changes]
     
-    if(money<=0 and index<3):
+    if(money<=0 and index<target):
         changes.append(money)
-        return change(money,coins,changes,index+1)
+        return change(money,coins,changes,index+1,target)
 
     changelist=[]
     for m in coins:
         if(money>=m):
             c2=changes[:]
             c2.append(m)  
-            changelist += change(money-m,coins,c2,index+1)
+            changelist += change(money-m,coins,c2,index+1,target)
     return changelist
 
 '''''
@@ -95,8 +96,7 @@ if __name__ == '__main__':
     print('Average Daily Return: ',daily_ret)
     print('Cumulative Return: ',cum_ret)
     
-    coins=np.arange(0,1.1,0.1).tolist()
-    weightlist=countChange(1,coins)
+    weightlist=weights()
     r=[simulate(start,end,symbols,w)+(w,) for w in weightlist]
     
     s=0

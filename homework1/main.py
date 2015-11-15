@@ -1,4 +1,6 @@
 '''
+http://wiki.quantsoftware.org/index.php?title=CompInvestI_Homework_1
+
 Created on 7 Nov 2015
 
 @author: joe

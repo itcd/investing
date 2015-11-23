@@ -38,6 +38,7 @@ if __name__ == '__main__':
         orderfile=sys.argv[2]
         valuefile=sys.argv[3]
 
+    # read csv file and format the lists
     symbols=[]
     datestrlist=[]
     rows=[]
@@ -54,6 +55,7 @@ if __name__ == '__main__':
             s=s.replace(']', '')
             datestrlist.append(s)
 
+    # remove duplicate symbols and dates, and get start and end dates
     symbols = list(set(symbols))
     symbols.sort()
     datestrlist = list(set(datestrlist))
@@ -99,7 +101,7 @@ if __name__ == '__main__':
     # create data frame and sort by index
     df_trade = pandas.DataFrame(rows2, columns=symbols, index=indices)
     df_trade=df_trade.sort_index()
-    df_trade.to_csv('tradematrix.csv')
+    df_trade.to_csv('~tradematrix.csv')
 
     # load data from Yahoo
     dt_start = dt.datetime(d1[0], d1[1], d1[2])
@@ -177,7 +179,7 @@ if __name__ == '__main__':
         total=sum(port)+results.ix[t,'Cash']
         results.set_value(t, 'Fund', total)
 
-    results.to_csv('holdingmatrix.csv')
+    results.to_csv('~holdingmatrix.csv')
     df_close['Fund']=results['Fund']
 
     trading_days = 252

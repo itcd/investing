@@ -83,7 +83,8 @@ if __name__ == '__main__':
     rows2=[]
     indices=[]
 
-    # merge lines of same dates
+    # merge adjacent lines of same dates. orders must be sorted
+    # multiple orders of the same date in the trade matrix will cause errors
     for i in range(len(rows)):
         r=rows[i]
         s=[0 for j in symbols]
@@ -97,6 +98,10 @@ if __name__ == '__main__':
         else:
             indices.append(date_object)
             rows2.append(s)
+    
+#     with open('~rows.csv', 'wb') as myfile:
+#         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+#         wr.writerows(rows2)
     
     # create data frame and sort by index
     df_trade = pandas.DataFrame(rows2, columns=symbols, index=indices)
@@ -141,6 +146,10 @@ if __name__ == '__main__':
         order=df_trade.ix[timeseries.index[i]]
         h=cumulative.ix[timeseries.index[i]]
         holdings.append(h)
+#         print('order')
+#         print(order)
+#         print('price')
+#         print(price)
         for j in range(len(order)):
             balance-=order[j]*price[j]
         
